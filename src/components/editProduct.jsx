@@ -1,6 +1,6 @@
 import React, {Component } from 'react';
 import axios from 'axios';
-
+import { ProductAPI } from '../APIs/products';
 
 
 class EditProduct extends Component {
@@ -25,7 +25,7 @@ class EditProduct extends Component {
     componentDidMount()
     {
         
-        axios.get('http://localhost/question1_backend_api/products/read-one.php?id=' + this.props.match.params.id)
+        axios.get(ProductAPI.BASE +ProductAPI.READ_ONE+'?id=' + this.props.match.params.id)
         .then(res => {
             const product = res.data.data;
         
@@ -33,7 +33,8 @@ class EditProduct extends Component {
                 id: product.id,
                 name: product.name,
                 slug: product.slug,
-                description: product.description
+                description: product.description,
+                price: product.price
             });
         })
     
@@ -74,18 +75,20 @@ class EditProduct extends Component {
             description: this.state.description
         }
     
-        axios.post(`http://localhost/question1_backend_api/products/update.php`,data,{
-         headers: {
+        axios.post(ProductAPI.BASE + ProductAPI.UPDATE,
+           data,
+           {
+           headers: {
             'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-    }
-    })
-      .then(res => {
-    
-        this.props.history.push('/products');
-      })
-    }catch(e){
+            }
+          })
+          .then(res => {
+        
+            this.props.history.push('/products');
+          })
+        }catch(e){
 
-    }
+        }
     }
     
     render() { 

@@ -1,6 +1,6 @@
 import React, {Component } from 'react';
 import axios from 'axios';
-
+import { ProductAPI } from '../APIs/products';
 
 
 class CreateProduct extends Component {
@@ -17,7 +17,7 @@ class CreateProduct extends Component {
             name: '',
             Slug: '',
             description:'',
-            price: 0
+            price: ''
         }
     }
     onChangeName(e) {
@@ -54,19 +54,21 @@ class CreateProduct extends Component {
             description: this.state.description
         }
         console.log(data);
-        axios.post(`http://localhost/question1_backend_api/products/create.php`,data,{
-         headers: {
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-    }
-    })
+        axios.post(ProductAPI.BASE + ProductAPI.CREATE,
+           data,
+           {
+            headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                     }
+          })
       .then(res => {
         console.log(res);
         console.log(res.data);
         this.props.history.push('/products');
-      })
-    }catch(e){
+        })
+      }catch(e){
 
-    }
+      }
     }
      
       componentDidMount()
@@ -80,7 +82,7 @@ class CreateProduct extends Component {
                     <div className="col-2">
                        
                     </div>
-                    <div className="col">
+                    <div className="col-8 col-offset-2">
                     <h2> Create Product</h2>
                     <form onSubmit={this.onSubmit}>
                             <div className="form-group">
@@ -120,6 +122,9 @@ class CreateProduct extends Component {
                                 <input type="submit" value="Save" className="btn btn-primary"/>
                             </div>
                         </form>
+                    </div>
+                    <div className="col-2">
+                       
                     </div>
             </div>
          );

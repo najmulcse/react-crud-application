@@ -6,6 +6,7 @@ import {Link } from 'react-router-dom';
 import {toast} from 'react-toastify'; 
 import Button from 'react-bootstrap/Button';
 import Table from 'react-bootstrap/Table';
+import { ProductAPI } from '../APIs/products';
 
 class Products extends Component {
     state = {  
@@ -18,7 +19,7 @@ class Products extends Component {
     }
     getProducts()
     {
-        axios.get('http://localhost/question1_backend_api/products/read.php')
+        axios.get(ProductAPI.BASE + ProductAPI.LIST)
         .then(res => {
             const products = res.data.data;
 
@@ -37,7 +38,7 @@ class Products extends Component {
     const products = productsOld.filter(p => p.id !== product.id) ;
     this.setState({products})
     try{
-        axios.post(`http://localhost/question1_backend_api/products/delete.php`,
+        axios.post(ProductAPI.BASE + ProductAPI.DELETE,
         
         {
             id: product.id
@@ -63,7 +64,7 @@ class Products extends Component {
                     <div className="col-2">
                        
                     </div>
-                    <div className="col">
+                    <div className="col-8">
                     <h1> List of products</h1>
                         { products.length ? 
                         <Table responsive>
@@ -89,9 +90,12 @@ class Products extends Component {
                     ))}
                    
                 </tbody>
-                </Table>: <p>No product </p>
+                </Table>: <p>No product available </p>
                         }
                         
+                       
+                    </div>
+                    <div className="col-2">
                        
                     </div>
                 </div>
